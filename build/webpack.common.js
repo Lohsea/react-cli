@@ -2,8 +2,9 @@
  * @Description: 
  * @Author: lixin
  * @Date: 2021-08-11 13:50:41
- * @LastEditTime: 2021-08-24 17:30:02
+ * @LastEditTime: 2021-08-30 14:15:01
  */
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require('path')
@@ -70,18 +71,40 @@ const commonConfig = {
                 },
             },
             {
+                test: /\.json$/,
+                use: 'json-loader',
+                include: path.resolve(__dirname, '../src'),
+                type: 'javascript/auto',
+                exclude: /node_modules/,
+              },
+            {
                 test: /\.wasm$/,
                 type: 'webassembly/async',
             },
         ]
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.jsx', '.wasm'],
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json','.wasm'],
+        alias: {
+            'react/jsx-runtime': require.resolve('react/jsx-runtime'),
+        },
+        fallback: {
+            crypto: require.resolve('crypto-browserify'),
+            // path: require.resolve('path-browserify'),
+            //   url: require.resolve('url'),
+            buffer: require.resolve('buffer/'),
+            //   util: require.resolve('util/'),
+            stream: require.resolve('stream-browserify/'),
+            // vm: require.resolve('vm-browserify')
+        }
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: 'src/index.html'
         }),
+        new webpack.ProvidePlugin({
+            process: 'process/browser.js',
+     }),
     ],
     output: {
         path:path.resolve(__dirname, '../dist'),

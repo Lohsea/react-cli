@@ -2,7 +2,7 @@
  * @Description: webpack dev config
  * @Author: lixin
  * @Date: 2021-08-06 16:08:18
- * @LastEditTime: 2021-08-13 15:29:37
+ * @LastEditTime: 2021-08-27 17:45:28
  */
 const webpack =  require('webpack')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -11,10 +11,13 @@ const devConfig = {
     mode: 'development',
     devtool: 'eval-cheap-module-source-map',
     devServer: {
-        contentBase: './dist',
+        // contentBase: './dist',
         open: true,
         hot: true,
-        overlay: true,
+        client: {
+            overlay: true,
+            progress: true,
+          },
         historyApiFallback: true,
         proxy: {}
     },

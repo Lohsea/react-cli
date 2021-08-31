@@ -2,39 +2,29 @@
  * @Description:
  * @Author: lixin
  * @Date: 2021-08-06 11:23:24
- * @LastEditTime: 2021-08-17 17:49:14
+ * @LastEditTime: 2021-08-30 16:53:03
  */
 
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import * as wasm from "starks_proofgen";
-import Home from "./home";
-import avatar from "./avatar.jpeg";
+// import * as wasm from "starks_proofgen";
+import config from "./config/config.json";
 
-import "./index.css";
+import Api from "./components/Api/Api";
+import HomePage from "./pages/homePage";
+import EventQueue from "./components/Event/EventQueue";
 
-// function App() {
-//   return (
-//     <BrowserRouter>
-//       <Switch>
-//         <Route path="/" exact component={Home} />
-//         <Route path="/list" component={List} />
-//       </Switch>
-//     </BrowserRouter>
-//   );
-// }
+import "./styles/index.scss";
+import "antd/dist/antd.css";
 
-class App extends React.Component {
-  render() {
-    return (
-      <h1>
-        Hello, react
-        {wasm.generate_program("begin push.20 read gt.128 end")}
-        <img src={avatar} />
-      </h1>
-    );
-  }
+function App(): React.ReactElement {
+  return (
+    <Api url={config.url}>
+      {/* <EventQueue> */}
+      <HomePage />
+      {/* </EventQueue> */}
+    </Api>
+  );
 }
 
 ReactDOM.render(<App />, document.getElementById("root"));
